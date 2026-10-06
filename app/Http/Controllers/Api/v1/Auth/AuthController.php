@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Resources\Auth\TokenResource;
 use App\Http\Resources\Auth\UserResource;
 use App\Services\Auth\AuthService;
@@ -14,15 +14,9 @@ class AuthController extends Controller
 {
     use ApiResponses;
 
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct(private readonly AuthService $authService)
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
+    public function __construct(private readonly AuthService $authService) {}
+
+
 
     /**
      * Get a JWT via given credentials.

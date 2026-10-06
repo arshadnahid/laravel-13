@@ -9,19 +9,20 @@ use App\Http\Resources\Auth\UserResource;
 use App\Services\Auth\AuthService;
 use App\Traits\ApiResponses;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class AuthController extends Controller
+class AuthController extends Controller implements HasMiddleware
 {
     use ApiResponses;
 
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct(private readonly AuthService $authService)
+    public function __construct(private readonly AuthService $authService) {}
+
+    public static function middleware(): array
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        return [
+            new Middleware('auth:api', except: ['login']),
+        ];
     }
 
     /**

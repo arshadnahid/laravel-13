@@ -123,24 +123,6 @@ Route::prefix('auth')->group(function () {
 });
 ```
 
-> **Why the middleware is on the route and not in the controller:** since Laravel 11,
-> controllers no longer have `$this->middleware()` (calling it gives
-> `Call to undefined method ...::middleware()`). Either put it on the routes as above,
-> or have the controller implement `Illuminate\Routing\Controllers\HasMiddleware`:
->
-> ```php
-> use Illuminate\Routing\Controllers\HasMiddleware;
-> use Illuminate\Routing\Controllers\Middleware;
->
-> class AuthController extends Controller implements HasMiddleware
-> {
->     public static function middleware(): array
->     {
->         return [new Middleware('auth:api', except: ['login'])];
->     }
-> }
-> ```
-
 ---
 
 ## 3. Custom Service Provider

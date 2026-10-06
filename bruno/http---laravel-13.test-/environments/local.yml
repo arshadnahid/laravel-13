@@ -1,0 +1,8 @@
+name: local
+variables:
+  - name: baseUrl
+    value: http://laravel-13.test/
+  - name: accessToken
+    value: ""
+  - name: refreshTocken
+    value: ""

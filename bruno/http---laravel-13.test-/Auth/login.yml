@@ -22,7 +22,7 @@ runtime:
     - type: after-response
       code: |-
         if (res.status === 200) {
-          bru.setEnvVar("accessToken", res.body.access_token);
+          bru.setEnvVar("accessToken", res.body.data.access_token);
         }
 
 settings:

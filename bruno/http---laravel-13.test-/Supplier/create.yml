@@ -1,0 +1,80 @@
+info:
+  name: create
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}api/suppliers"
+  headers:
+    - name: Accept
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Acme Trading Ltd",
+        "email": "contact@acme-trading.com",
+        "phone_number": "+8801700000000",
+        "description": "Wholesale electronics supplier",
+        "address": "House 12, Road 5, Dhanmondi, Dhaka",
+        "website": "https://acme-trading.com",
+        "logo_url": "https://acme-trading.com/logo.png"
+      }
+  auth: inherit
+
+docs: |-
+  # Create supplier
+
+  `POST /api/suppliers` (requires Bearer token; run **Auth > login** first)
+
+  ## Body
+
+  | Field | Type | Rules |
+  |---|---|---|
+  | name | string | required, max 255 |
+  | email | string | required, valid email, unique (includes soft-deleted suppliers), max 255 |
+  | phone_number | string | optional, max 20 |
+  | description | string | optional, max 255 |
+  | address | string | optional, max 255 |
+  | website | string | optional, valid URL, max 255 |
+  | logo_url | string | optional, valid URL, max 255 |
+
+  `slug` is not sent; it is generated from `name` (`acme-trading-ltd`, then `acme-trading-ltd-2`, ... if taken).
+
+  ## 201 Created
+
+  ```json
+  {
+    "data": {
+      "id": "01k6x...",
+      "name": "Acme Trading Ltd",
+      "slug": "acme-trading-ltd",
+      "email": "contact@acme-trading.com",
+      "phone_number": "+8801700000000",
+      "description": "Wholesale electronics supplier",
+      "address": "House 12, Road 5, Dhanmondi, Dhaka",
+      "website": "https://acme-trading.com",
+      "logo_url": "https://acme-trading.com/logo.png",
+      "created_at": "2026-10-07T10:00:00.000000Z",
+      "updated_at": "2026-10-07T10:00:00.000000Z"
+    },
+    "message": "Supplier created successfully",
+    "errors": [],
+    "success": true,
+    "status": "success"
+  }
+  ```
+
+  ## Errors
+
+  | Status | When |
+  |---|---|
+  | 401 | Missing or invalid token |
+  | 422 | Validation failed (field messages in `errors`) |
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

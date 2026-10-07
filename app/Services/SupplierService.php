@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\Supplier\SupplierCreateDTO;
 use App\DTOs\Supplier\SupplierFilterDTO;
+use App\DTOs\Supplier\SupplierUpdateDTO;
 use App\Models\Supplier;
 use App\Repositories\Supplier\SupplierInterface\SupplierInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -21,6 +22,21 @@ class SupplierService
     public function createSupplier(SupplierCreateDTO $dto): Supplier
     {
         return $this->supplierRepository->createSupplier($dto, $this->uniqueSlug($dto->name));
+    }
+
+    public function getSupplierById(string $id): Supplier
+    {
+        return $this->supplierRepository->getSupplierById($id);
+    }
+
+    public function updateSupplier(string $id, SupplierUpdateDTO $dto): Supplier
+    {
+        return $this->supplierRepository->updateSupplier($id, $dto);
+    }
+
+    public function deleteSupplier(string $id): void
+    {
+        $this->supplierRepository->deleteSupplier($id);
     }
 
     /**

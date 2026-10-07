@@ -1,0 +1,46 @@
+info:
+  name: delete
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}api/suppliers/01k6x0000000000000000000000"
+  headers:
+    - name: Accept
+      value: application/json
+  auth: inherit
+
+docs: |-
+  # Delete supplier
+
+  `DELETE /api/suppliers/{id}` (requires Bearer token; run **Auth > login** first)
+
+  Replace the sample ULID in the URL with a real supplier `id`.
+
+  Soft delete: the row stays in the database with `deleted_at` set. The supplier disappears from **list** and can no longer be updated or deleted. Its `email` and `slug` stay reserved, so they can't be reused by a new supplier.
+
+  ## 200 OK
+
+  ```json
+  {
+    "data": [],
+    "message": "Supplier deleted successfully",
+    "errors": [],
+    "success": true,
+    "status": "success"
+  }
+  ```
+
+  ## Errors
+
+  | Status | When |
+  |---|---|
+  | 401 | Missing or invalid token |
+  | 404 | Supplier not found or already soft-deleted |
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

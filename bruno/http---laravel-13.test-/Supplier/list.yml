@@ -5,7 +5,10 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}api/suppliers"
+  url: "{{baseUrl}}api/suppliers?name=acme&email=@acme-trading.com&phone_number=+88017&address=dhaka&trashed=only&per_page=5&page=1"
+  headers:
+    - name: Accept
+      value: application/json
   params:
     - name: name
       value: acme
@@ -19,23 +22,29 @@ http:
     - name: address
       value: dhaka
       type: query
+    - name: trashed
+      value: only
+      type: query
     - name: per_page
-      value: "10"
+      value: "5"
       type: query
     - name: page
       value: "1"
       type: query
-  headers:
-    - name: Accept
-      value: application/json
   auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
 
 docs: |-
   # List suppliers
 
   `GET /api/suppliers` (requires Bearer token; run **Auth > login** first)
 
-  Paginated, newest first. Soft-deleted suppliers are excluded. All filters are optional, are "contains" matches (case-insensitive per DB collation) and combine with AND. Disable a query param in the Params tab to skip that filter.
+  Paginated, newest first. Soft-deleted suppliers are excluded unless `trashed` is set. All filters are optional, are "contains" matches (case-insensitive per DB collation) and combine with AND. Disable a query param in the Params tab to skip that filter.
 
   ## Query params
 
@@ -45,6 +54,7 @@ docs: |-
   | email | string | optional, max 255 |
   | phone_number | string | optional, max 20 |
   | address | string | optional, max 255 |
+  | trashed | string | optional, `only` = soft-deleted suppliers only, `with` = active and soft-deleted, omitted = active only |
   | per_page | integer | optional, 1-100, default 15 |
   | page | integer | optional, min 1, default 1 |
 
@@ -91,9 +101,3 @@ docs: |-
   | 401 | Missing or invalid token |
   | 404 | No suppliers match the filters (empty page); `data` is `[]` and `pagination` is still returned |
   | 422 | Invalid query param, e.g. `per_page=500` (field messages in `errors`) |
-
-settings:
-  encodeUrl: true
-  timeout: 0
-  followRedirects: true
-  maxRedirects: 5

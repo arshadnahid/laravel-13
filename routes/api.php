@@ -20,5 +20,8 @@ Route::group([
 
 Route::middleware('auth:api')->group(function () {
     Route::get('suppliers', [SupplierController::class, 'index']);
+    Route::get('suppliers/{id}', [SupplierController::class, 'show']);
     Route::post('suppliers', [SupplierController::class, 'store']);
+    Route::match(['put', 'patch'], 'suppliers/{id}', [SupplierController::class, 'update']);
+    Route::delete('suppliers/{id}', [SupplierController::class, 'destroy']);
 });

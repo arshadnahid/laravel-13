@@ -18,6 +18,7 @@ class FilterSupplier extends FormRequest
             'email' => ['nullable', 'string', 'max:255'],
             'phone_number' => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:255'],
+            'trashed' => ['nullable', 'string', 'in:only,with'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
             'page' => ['nullable', 'integer', 'min:1'],
         ];
@@ -30,6 +31,7 @@ class FilterSupplier extends FormRequest
             email: $this->validated('email'),
             phoneNumber: $this->validated('phone_number'),
             address: $this->validated('address'),
+            trashed: $this->validated('trashed'),
             perPage: (int) $this->validated('per_page', 15),
         );
     }

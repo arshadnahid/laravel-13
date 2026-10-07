@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Supplier\CreateSupplier;
 use App\Http\Requests\Api\Supplier\FilterSupplier;
+use App\Http\Requests\Api\Supplier\UpdateSupplier;
 use App\Http\Resources\Supplier\SupplierResource;
 use App\Services\SupplierService;
 use App\Traits\ApiResponses;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
@@ -26,15 +26,6 @@ class SupplierController extends Controller
 
         return $this->sendResponse('Suppliers retrieved successfully', SupplierResource::collection($suppliers));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -48,32 +39,30 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        //
-    }
+        $supplier = $this->supplierService->getSupplierById($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return $this->sendResponse('Supplier retrieved successfully', new SupplierResource($supplier));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSupplier $request, string $id): JsonResponse
     {
-        //
+        $supplier = $this->supplierService->updateSupplier($id, $request->toDTO());
+
+        return $this->sendUpdatedResponse('Supplier updated successfully', new SupplierResource($supplier));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        //
+        $this->supplierService->deleteSupplier($id);
+
+        return $this->sendResponse('Supplier deleted successfully');
     }
 }

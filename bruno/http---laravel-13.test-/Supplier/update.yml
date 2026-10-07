@@ -1,0 +1,81 @@
+info:
+  name: update
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}api/suppliers/01k6x0000000000000000000000"
+  headers:
+    - name: Accept
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Acme Trading Limited",
+        "phone_number": "+8801711111111",
+        "address": "House 20, Road 9, Gulshan, Dhaka"
+      }
+  auth: inherit
+
+docs: |-
+  # Update supplier
+
+  `PATCH /api/suppliers/{id}` (also accepts `PUT`; requires Bearer token; run **Auth > login** first)
+
+  Replace the sample ULID in the URL with a real supplier `id` (from **list** or **create**).
+
+  Partial update: send only the fields you want to change. Omitted fields are untouched; sending `null` for a nullable field clears it. Soft-deleted suppliers return 404.
+
+  ## Body
+
+  | Field | Type | Rules |
+  |---|---|---|
+  | name | string | optional, but not empty when sent, max 255 |
+  | email | string | optional, but not empty when sent, valid email, unique (includes soft-deleted suppliers, ignores this supplier), max 255 |
+  | phone_number | string / null | optional, max 20 |
+  | description | string / null | optional, max 255 |
+  | address | string / null | optional, max 255 |
+  | website | string / null | optional, valid URL, max 255 |
+  | logo_url | string / null | optional, valid URL, max 255 |
+
+  `slug` is never changed, even when `name` changes, so existing URLs stay valid.
+
+  ## 200 OK
+
+  ```json
+  {
+    "data": {
+      "id": "01k6x...",
+      "name": "Acme Trading Limited",
+      "slug": "acme-trading-ltd",
+      "email": "contact@acme-trading.com",
+      "phone_number": "+8801711111111",
+      "description": "Wholesale electronics supplier",
+      "address": "House 20, Road 9, Gulshan, Dhaka",
+      "website": "https://acme-trading.com",
+      "logo_url": "https://acme-trading.com/logo.png",
+      "created_at": "2026-10-07T10:00:00.000000Z",
+      "updated_at": "2026-10-07T11:00:00.000000Z"
+    },
+    "message": "Supplier updated successfully",
+    "errors": [],
+    "success": true,
+    "status": "success"
+  }
+  ```
+
+  ## Errors
+
+  | Status | When |
+  |---|---|
+  | 401 | Missing or invalid token |
+  | 404 | Supplier not found or already soft-deleted |
+  | 422 | Validation failed (field messages in `errors`) |
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

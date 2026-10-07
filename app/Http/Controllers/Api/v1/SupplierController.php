@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Supplier\CreateSupplier;
+use App\Http\Requests\Api\Supplier\FilterSupplier;
 use App\Http\Resources\Supplier\SupplierResource;
 use App\Services\SupplierService;
 use App\Traits\ApiResponses;
@@ -19,9 +20,11 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(FilterSupplier $request): JsonResponse
     {
-        //
+        $suppliers = $this->supplierService->getAllSuppliers($request->toDTO());
+
+        return $this->sendResponse('Suppliers retrieved successfully', SupplierResource::collection($suppliers));
     }
 
     /**

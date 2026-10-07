@@ -3,11 +3,18 @@
 namespace App\Repositories\Supplier\SupplierInterface;
 
 use App\DTOs\Supplier\SupplierCreateDTO;
+use App\DTOs\Supplier\SupplierFilterDTO;
 use App\Models\Supplier;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface SupplierInterface
 {
-    public function getAllSuppliers();
+    /**
+     * Paginated suppliers, optionally filtered by name, email, phone number and address.
+     *
+     * @return LengthAwarePaginator<int, Supplier>
+     */
+    public function getAllSuppliers(SupplierFilterDTO $filter): LengthAwarePaginator;
     public function getSupplierById(string $id);
 
     /**

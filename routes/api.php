@@ -19,5 +19,6 @@ Route::group([
 });
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('suppliers', [SupplierController::class, 'index']);
     Route::post('suppliers', [SupplierController::class, 'store']);
 });

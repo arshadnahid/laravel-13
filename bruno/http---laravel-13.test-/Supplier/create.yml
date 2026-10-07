@@ -33,7 +33,7 @@ docs: |-
   | Field | Type | Rules |
   |---|---|---|
   | name | string | required, max 255 |
-  | email | string | required, valid email, unique (includes soft-deleted suppliers), max 255 |
+  | email | string | required, valid email, unique; a soft-deleted supplier's email gets a specific 422 message, max 255 |
   | phone_number | string | optional, max 20 |
   | description | string | optional, max 255 |
   | address | string | optional, max 255 |
@@ -71,7 +71,7 @@ docs: |-
   | Status | When |
   |---|---|
   | 401 | Missing or invalid token |
-  | 422 | Validation failed (field messages in `errors`) |
+  | 422 | Validation failed (field messages in `errors`). Email of a soft-deleted supplier: "The email is already used by a supplier that is currently inactive (soft deleted)." |
 
 settings:
   encodeUrl: true

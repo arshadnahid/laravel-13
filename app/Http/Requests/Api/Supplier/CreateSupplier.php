@@ -3,8 +3,10 @@
 namespace App\Http\Requests\Api\Supplier;
 
 use App\DTOs\Supplier\SupplierCreateDTO;
+use App\Rules\NotUsedBySoftDeletedSupplier;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateSupplier extends FormRequest
 {
@@ -17,8 +19,8 @@ class CreateSupplier extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            // Also counts soft-deleted suppliers, matching the DB unique index
-            'email' => ['required', 'email', 'max:255', 'unique:suppliers,email'],
+            // The DB unique index counts soft-deleted rows, so they get their own explicit message
+            'email' => ['bail', 'required', 'email', 'max:255', Rule::unique('suppliers', 'email')->whereNull('deleted_at'), new NotUsedBySoftDeletedSupplier('email')],
             'phone_number' => ['nullable', 'string', 'max:20'],
             'description' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],

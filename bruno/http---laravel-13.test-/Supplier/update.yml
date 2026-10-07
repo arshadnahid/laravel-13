@@ -33,7 +33,7 @@ docs: |-
   | Field | Type | Rules |
   |---|---|---|
   | name | string | optional, but not empty when sent, max 255 |
-  | email | string | optional, but not empty when sent, valid email, unique (includes soft-deleted suppliers, ignores this supplier), max 255 |
+  | email | string | optional, but not empty when sent, valid email, unique (ignores this supplier); a soft-deleted supplier's email gets a specific 422 message, max 255 |
   | phone_number | string / null | optional, max 20 |
   | description | string / null | optional, max 255 |
   | address | string / null | optional, max 255 |

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Auth\AuthInterfaces\AuthInterface;
 use App\Repositories\Auth\AuthRepository;
+use App\Repositories\Store\StoreInterface\StoreInterface;
+use App\Repositories\Store\StoreRepository;
 use App\Repositories\Supplier\SupplierInterface\SupplierInterface;
 use App\Repositories\Supplier\SupplierRepository;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public array $bindings = [
         AuthInterface::class => AuthRepository::class,
         SupplierInterface::class => SupplierRepository::class,
+        StoreInterface::class => StoreRepository::class,
     ];
 
     /**

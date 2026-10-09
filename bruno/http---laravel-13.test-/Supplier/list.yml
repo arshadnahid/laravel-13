@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}api/suppliers?name=acme&email=@acme-trading.com&phone_number=+88017&address=dhaka&trashed=only&per_page=5&page=1"
+  url: "{{baseUrl}}api/suppliers?per_page=15&page=1"
   headers:
     - name: Accept
       value: application/json
@@ -13,20 +13,25 @@ http:
     - name: name
       value: acme
       type: query
+      disabled: true
     - name: email
       value: "@acme-trading.com"
       type: query
+      disabled: true
     - name: phone_number
       value: "+88017"
       type: query
+      disabled: true
     - name: address
       value: dhaka
       type: query
+      disabled: true
     - name: trashed
       value: only
       type: query
+      disabled: true
     - name: per_page
-      value: "5"
+      value: "15"
       type: query
     - name: page
       value: "1"
